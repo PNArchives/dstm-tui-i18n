@@ -1,0 +1,14 @@
+_version = "Version"
+_short_des = "Don't Strave Together Dedicated Server Manager For Linux"
+_long_des = "Don't Strave Together Dedicated Server Manager For Linux\n  Github: github.com/PNCommand/dstm"
+_no_running_shards = "no running shards"
+_tip01 = "Server not showing in server list?   -->   Check port and firewall!"
+_tip02 = "Got a update when start game?        -->   Update server side too!"
+
+[_test_count]
+one = "I have {{.PluralCount}} unread email."
+other = "I have {{.PluralCount}} unread emails."
+
+[_test_data]
+one = "{{.Name}} has {{.Count}} unread email."
+other = "{{.Name}} has {{.Count}} unread emails."

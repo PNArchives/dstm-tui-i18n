@@ -25,6 +25,7 @@ import (
 	"fmt"
 	"os"
 
+	l10n "github.com/PNCommand/dstm/localization"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -34,12 +35,10 @@ var cfgFile string
 var rootCmd = &cobra.Command{
 	Use:     "dstm",
 	Version: "v0.0.1",
-	Short:   "A brief description of your application",
-	Long:    "A longer description.",
 	Args:    cobra.NoArgs,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("Hello DSTM!")
-		fmt.Println("Language:", viper.GetString("lang"))
+		str := l10n.Singleton().String("_long_des")
+		println(str)
 	},
 }
 
@@ -62,15 +61,10 @@ func init() {
 
 	viper.BindPFlag("lang", rootCmd.Flags().Lookup("lang"))
 	viper.SetDefault("lang", "en")
-
-	// l10n.Locale = matchLangTag(appConf.Common.Lang)
-	// rootCmd.Short = local.String("_short_des", l10n.MsgOnly, 0, nil)
-	// rootCmd.Long = local.String("_long_des", l10n.MsgOnly, 0, nil)
-	// rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
 
 // initConfig reads in config file and ENV variables if set.
-// 引数 > 設定ファイル > 環境変数
+// 引数 > 環境変数 > 設定ファイル
 func initConfig() {
 	if cfgFile != "" {
 		viper.SetConfigFile(cfgFile)
@@ -95,4 +89,5 @@ func initConfig() {
 		}
 		fmt.Println("========== ========== ========== ========== ==========")
 	}
+	l10n.SetLocale(viper.GetString("lang"))
 }

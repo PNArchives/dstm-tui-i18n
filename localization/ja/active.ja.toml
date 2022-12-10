@@ -1,0 +1,12 @@
+_version = "バージョン"
+_short_des = "ドンスタLinuxサーバ管理ツール"
+_long_des = "ドンスタLinuxサーバ管理ツール\n  Github: github.com/PNCommand/dstm"
+_no_running_shards = "実行中のワールドがありません"
+_tip01 = "サーバリストに表示されない?   -->   ポートとファイアウォールの設定をチェック!"
+_tip02 = "ゲーム起動時に更新してた?　   -->   サーバサイドも更新しないと!"
+
+[_test_count]
+other = "まだみていないメールは{{.PluralCount}}件あります。"
+
+[_test_data]
+other = "{{.Name}}がまだみていないメールは{{.Count}}件あります。"
