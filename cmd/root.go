@@ -25,6 +25,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/PNCommand/dstm/dst/env"
 	l10n "github.com/PNCommand/dstm/localization"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -39,6 +40,8 @@ var rootCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		str := l10n.Singleton().String("_long_des")
 		println(str)
+
+		env.CheckSystem()
 	},
 }
 
@@ -54,13 +57,27 @@ func init() {
 	// rootCmd.Execute > コマンドライン引数の処理 > cobra.OnInitialize > rootCmd.Run という順に実行される
 	cobra.OnInitialize(initConfig)
 
+	rootCmd.CompletionOptions.DisableDefaultCmd = true
+	rootCmd.SetHelpCommand(&cobra.Command{Hidden: true})
 	rootCmd.SetVersionTemplate("(*•ᴗ•*) " + rootCmd.Use + " " + rootCmd.Version + "\n")
 
 	rootCmd.PersistentFlags().StringVarP(&cfgFile, "config", "c", "", "config file (default is $HOME/.dstm.toml)")
 	rootCmd.Flags().StringP("lang", "l", "en", "specify language")
 
 	viper.BindPFlag("lang", rootCmd.Flags().Lookup("lang"))
+	initDefaultConfig()
+}
+
+func initDefaultConfig() {
 	viper.SetDefault("lang", "en")
+
+	viper.SetDefault("dstRootDir", os.ExpandEnv("$HOME/Server"))
+	viper.SetDefault("ugcDir", os.ExpandEnv("$HOME/Server/ugc_mods"))
+	viper.SetDefault("v1ModDir", os.ExpandEnv("$HOME/Server/mods"))
+	viper.SetDefault("v2ModDir", os.ExpandEnv("$HOME/Server/ugc_mods/content"))
+
+	viper.SetDefault("kleiRootDir", os.ExpandEnv("$HOME/Klei"))
+	viper.SetDefault("worldsDirName", "worlds")
 }
 
 // initConfig reads in config file and ENV variables if set.
@@ -81,13 +98,11 @@ func initConfig() {
 	viper.BindEnv("lang")
 
 	// If a config file is found, read it in.
-	if err := viper.ReadInConfig(); err == nil {
-		fmt.Println("========== ========== ========== ========== ==========")
-		fmt.Fprintln(os.Stderr, "Using config file:", viper.ConfigFileUsed())
-		for k, v := range viper.AllSettings() {
-			fmt.Printf("    %s: %s\n", k, v)
+	if err := viper.ReadInConfig(); err != nil {
+		if _, ok := err.(viper.ConfigFileNotFoundError); !ok {
+			fmt.Println("Config file was found but another error was produced")
+			os.Exit(1)
 		}
-		fmt.Println("========== ========== ========== ========== ==========")
 	}
 	l10n.SetLocale(viper.GetString("lang"))
 }
