@@ -1,8 +1,8 @@
 package localization
 
 import (
-	"os"
-	"path/filepath"
+	"embed"
+	"io/fs"
 	"strings"
 
 	"github.com/nicksnyder/go-i18n/v2/i18n"
@@ -18,6 +18,10 @@ type localization struct {
 var (
 	locale    = language.Japanese
 	singleton = newLocalizer()
+	//go:embed en
+	//go:embed zh
+	//go:embed ja
+	localizedFS embed.FS
 )
 
 func Singleton() *localization {
@@ -30,13 +34,18 @@ func newLocalizer() localization {
 	b.RegisterUnmarshalFunc("toml", toml.Unmarshal)
 
 	// load all toml files in the localization directory
-	err := filepath.Walk("./localization", func(path string, info os.FileInfo, err error) error {
+	err := fs.WalkDir(localizedFS, ".", func(path string, d fs.DirEntry, err error) error {
 		if err != nil {
 			return err
 		}
-		if strings.HasSuffix(path, ".toml") {
-			b.MustLoadMessageFile("./" + path)
+		if !strings.HasSuffix(path, ".toml") {
+			return nil
 		}
+		bytes, err := localizedFS.ReadFile(path)
+		if err != nil {
+			return err
+		}
+		b.ParseMessageFileBytes(bytes, path)
 		return nil
 	})
 	if err != nil {
