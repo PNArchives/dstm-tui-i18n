@@ -65,7 +65,6 @@ func init() {
 	rootCmd.Flags().StringP("lang", "l", "en", "specify language")
 
 	viper.BindPFlag("lang", rootCmd.Flags().Lookup("lang"))
-	initDefaultConfig()
 }
 
 func initDefaultConfig() {
@@ -83,15 +82,16 @@ func initDefaultConfig() {
 // initConfig reads in config file and ENV variables if set.
 // 引数 > 環境変数 > 設定ファイル
 func initConfig() {
+	initDefaultConfig()
+
+	home, err := os.UserHomeDir()
+	cobra.CheckErr(err)
+	viper.AddConfigPath(home)
+	viper.SetConfigName(".dstm")
+	viper.SetConfigType("toml")
+
 	if cfgFile != "" {
 		viper.SetConfigFile(cfgFile)
-	} else {
-		home, err := os.UserHomeDir()
-		cobra.CheckErr(err)
-
-		viper.AddConfigPath(home)
-		viper.SetConfigName(".dstm")
-		viper.SetConfigType("toml")
 	}
 
 	viper.SetEnvPrefix("dstm")
@@ -99,7 +99,15 @@ func initConfig() {
 
 	// If a config file is found, read it in.
 	if err := viper.ReadInConfig(); err != nil {
-		if _, ok := err.(viper.ConfigFileNotFoundError); !ok {
+		if _, ok := err.(viper.ConfigFileNotFoundError); ok {
+			// Config file not found; ignore error if desired
+			err := viper.SafeWriteConfig()
+			if err != nil {
+				fmt.Println(err)
+				os.Exit(1)
+			}
+		} else {
+			// Config file was found but another error was produced
 			fmt.Println("Config file was found but another error was produced")
 			os.Exit(1)
 		}
