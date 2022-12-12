@@ -38,7 +38,7 @@ func installDeps() {
 	ans := interaction.Confirm("Ready?")
 	if !ans {
 		fmt.Println("Canceled")
-		return
+		os.Exit(0)
 	}
 	cmd := shell.MakeCmdUseStdIO("bash", "-c", useSudo+pkgManager+" update")
 	cmd.Run()
