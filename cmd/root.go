@@ -38,7 +38,7 @@ var rootCmd = &cobra.Command{
 	Version: "v0.0.1",
 	Args:    cobra.NoArgs,
 	Run: func(cmd *cobra.Command, args []string) {
-		str := l10n.Singleton().String("_long_des")
+		str := l10n.String("_long_des")
 		println(str)
 
 		env.CheckSystem()

@@ -16,17 +16,13 @@ type localization struct {
 }
 
 var (
-	locale    = language.Japanese
-	singleton = newLocalizer()
+	locale     = language.Japanese
+	translator = newLocalizer()
 	//go:embed en
 	//go:embed zh
 	//go:embed ja
 	localizedFS embed.FS
 )
-
-func Singleton() *localization {
-	return &singleton
-}
 
 func newLocalizer() localization {
 	// en, zh, ja
@@ -70,31 +66,31 @@ func SetLocale(str string) {
 		return
 	}
 	locale = tag
-	singleton.localizer = i18n.NewLocalizer(singleton.bundle, locale.String())
+	translator.localizer = i18n.NewLocalizer(translator.bundle, locale.String())
 }
 
-func (l localization) String(key string) string {
-	return l.localizer.MustLocalize(&i18n.LocalizeConfig{
+func String(key string) string {
+	return translator.localizer.MustLocalize(&i18n.LocalizeConfig{
 		MessageID: key,
 	})
 }
 
-func (l localization) String4Plural(key string, pluralCount int) string {
-	return l.localizer.MustLocalize(&i18n.LocalizeConfig{
+func String4Plural(key string, pluralCount int) string {
+	return translator.localizer.MustLocalize(&i18n.LocalizeConfig{
 		MessageID:   key,
 		PluralCount: pluralCount,
 	})
 }
 
-func (l localization) String4Data(key string, data map[string]interface{}) string {
-	return l.localizer.MustLocalize(&i18n.LocalizeConfig{
+func String4Data(key string, data map[string]interface{}) string {
+	return translator.localizer.MustLocalize(&i18n.LocalizeConfig{
 		MessageID:    key,
 		TemplateData: data,
 	})
 }
 
-func (l localization) String4PluralData(key string, pluralCount int, data map[string]interface{}) string {
-	return l.localizer.MustLocalize(&i18n.LocalizeConfig{
+func String4PluralData(key string, pluralCount int, data map[string]interface{}) string {
+	return translator.localizer.MustLocalize(&i18n.LocalizeConfig{
 		MessageID:    key,
 		PluralCount:  pluralCount,
 		TemplateData: data,
