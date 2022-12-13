@@ -15,6 +15,11 @@ func CreateNewTmuxSession(sessionName string) {
 	}
 }
 
+func CreateNewTmuxSessionExecCmd(sessionName, cmd string) {
+	fullCmd := "tmux -u new -d -s " + sessionName + " \"" + cmd + "\" "
+	MakeCmdUseStdIO("bash", "-c", fullCmd).Run()
+}
+
 func KillTmuxSession(sessionName string) {
 	MakeCmdUseStdIO("tmux", "kill-session", "-t", sessionName).Run()
 }
@@ -44,4 +49,13 @@ func GetTmuxSessionOutput(sessionName string) string {
 		panic(err)
 	}
 	return strings.Trim(string(bytes), "\n")
+}
+
+func GrepTmuxSessionOutput(sessionName, keyword string) (string, error) {
+	cmd := "tmux capture-pane -t " + sessionName + " -p -S - | grep -s '" + keyword + "'"
+	bytes, err := exec.Command("bash", "-c", cmd).Output()
+	if err != nil {
+		return "", err
+	}
+	return strings.Trim(string(bytes), "\n"), nil
 }

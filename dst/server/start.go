@@ -2,6 +2,8 @@ package server
 
 import (
 	"errors"
+	"fmt"
+	"time"
 
 	"github.com/PNCommand/dstm/utils/shell"
 	"github.com/spf13/viper"
@@ -40,7 +42,21 @@ func StartShard(clusterName, shardName string) error {
 	cmd += " -conf_dir " + worldsDirName
 	cmd += " -cluster ttt -shard Main"
 
-	shell.CreateNewTmuxSession(sessionName)
-	shell.SendCmdToTmuxSession(sessionName, cmd)
-	return nil
+	shell.CreateNewTmuxSessionExecCmd(sessionName, cmd)
+
+	fmt.Println("正在启动世界 " + sessionName)
+	fmt.Println("启动需要时间，请等待 90 秒")
+	fmt.Println("本脚本启动世界时禁止自动更新mod, 有需要请在Mod管理面板更新")
+	fmt.Println("如果启动失败，可以再尝试一两次")
+
+	for begin := time.Now(); time.Since(begin) < 30*time.Second; {
+		result, err := shell.GrepTmuxSessionOutput(sessionName, "Sim paused")
+		if err == nil && len(result) > 0 {
+			fmt.Println("成功启动世界 " + sessionName)
+			return nil
+		}
+		time.Sleep(time.Second)
+	}
+
+	return errors.New("世界 " + sessionName + " 启动失败！")
 }

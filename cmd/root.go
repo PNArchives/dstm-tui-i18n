@@ -61,7 +61,7 @@ func init() {
 	rootCmd.SetHelpCommand(&cobra.Command{Hidden: true})
 	rootCmd.SetVersionTemplate("(*•ᴗ•*) " + rootCmd.Use + " " + rootCmd.Version + "\n")
 
-	rootCmd.PersistentFlags().StringVarP(&cfgFile, "config", "c", "", "config file (default is $HOME/.dstm.toml)")
+	rootCmd.PersistentFlags().StringVarP(&cfgFile, "config", "", "", "config file (default is $HOME/.dstm.toml)")
 	rootCmd.Flags().StringP("lang", "l", "en", "specify language")
 
 	viper.BindPFlag("lang", rootCmd.Flags().Lookup("lang"))

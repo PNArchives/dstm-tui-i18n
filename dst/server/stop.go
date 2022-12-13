@@ -2,7 +2,9 @@ package server
 
 import (
 	"errors"
+	"fmt"
 	"strings"
+	"time"
 
 	"github.com/PNCommand/dstm/utils"
 	"github.com/PNCommand/dstm/utils/shell"
@@ -16,7 +18,17 @@ func StopShard(clusterName, shardName string) error {
 	}
 
 	shell.SendCmdToTmuxSession(sessionName, "c_shutdown(true)")
-	return nil
+	fmt.Println("正在关闭世界 " + sessionName)
+
+	for begin := time.Now(); time.Since(begin) < 30*time.Second; {
+		if !isShardRunning(sessionName) {
+			fmt.Println("成功关闭世界 " + sessionName)
+			return nil
+		}
+		time.Sleep(time.Second)
+	}
+
+	return errors.New("世界 " + sessionName + " 关闭失败！")
 }
 
 func StopAllShardsInCluster(clusterName string) {
@@ -34,10 +46,10 @@ func StopAllShards() {
 	}
 }
 
-func RestartShard(clusterName, shardName string) {
+func RestartShard(clusterName, shardName string) error {
 	sessionName := generateSessionName(clusterName, shardName)
 	if isShardRunning(sessionName) {
 		StopShard(clusterName, shardName)
 	}
-	StartShard(clusterName, shardName)
+	return StartShard(clusterName, shardName)
 }
