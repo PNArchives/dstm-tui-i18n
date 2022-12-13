@@ -3,6 +3,8 @@ package shell
 import (
 	"os/exec"
 	"strings"
+
+	"github.com/spf13/viper"
 )
 
 func CreateNewTmuxSession(sessionName string) {
@@ -26,7 +28,9 @@ func ForceShutdownSession(sessionName string) {
 }
 
 func GetTmuxSessionList() []string {
-	bytes, err := exec.Command("bash", "-c", "tmux ls | awk -F: '{print $1}'").Output()
+	separator := viper.GetString("separator")
+	cmd := "tmux ls | grep -sE '^.+?" + separator + ".+?:' | awk -F: '{print $1}'"
+	bytes, err := exec.Command("bash", "-c", cmd).Output()
 	if err != nil {
 		panic(err)
 	}

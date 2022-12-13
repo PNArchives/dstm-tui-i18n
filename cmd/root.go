@@ -70,6 +70,8 @@ func init() {
 func initDefaultConfig() {
 	viper.SetDefault("lang", "en")
 
+	viper.SetDefault("separator", "-")
+
 	viper.SetDefault("dstRootDir", os.ExpandEnv("$HOME/Server"))
 	viper.SetDefault("ugcDir", os.ExpandEnv("$HOME/Server/ugc_mods"))
 	viper.SetDefault("v1ModDir", os.ExpandEnv("$HOME/Server/mods"))
