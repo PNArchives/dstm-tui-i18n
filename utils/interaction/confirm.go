@@ -4,6 +4,8 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+
+	l10n "github.com/PNCommand/dstm/localization"
 )
 
 func Confirm(message string) bool {
@@ -11,7 +13,7 @@ func Confirm(message string) bool {
 	for {
 		fmt.Println(message)
 		fmt.Println("(1) Yes  (2) No")
-		fmt.Println("请输入选项数字> ")
+		fmt.Println(l10n.String("_enter_number"))
 		scanner.Scan()
 		input := scanner.Text()
 		switch input {
@@ -20,7 +22,7 @@ func Confirm(message string) bool {
 		case "2":
 			return false
 		default:
-			fmt.Println("请输入正确的数字！")
+			fmt.Println(l10n.String("_enter_correct_number"))
 		}
 	}
 }

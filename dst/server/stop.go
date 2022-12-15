@@ -9,26 +9,28 @@ import (
 	"github.com/PNCommand/dstm/utils"
 	"github.com/PNCommand/dstm/utils/shell"
 	"github.com/spf13/viper"
+
+	l10n "github.com/PNCommand/dstm/localization"
 )
 
 func StopShard(clusterName, shardName string) error {
 	sessionName := generateSessionName(clusterName, shardName)
 	if !isShardRunning(sessionName) {
-		return errors.New("世界 " + sessionName + " 处于关闭状态！")
+		return errors.New(l10n.String4Data("_shard_is_closed", map[string]interface{}{"sessionName": sessionName}))
 	}
 
 	shell.SendCmdToTmuxSession(sessionName, "c_shutdown(true)")
-	fmt.Println("正在关闭世界 " + sessionName)
+	fmt.Println(l10n.String4Data("_close_shard", map[string]interface{}{"sessionName": sessionName}))
 
 	for begin := time.Now(); time.Since(begin) < 30*time.Second; {
 		if !isShardRunning(sessionName) {
-			fmt.Println("成功关闭世界 " + sessionName)
+			fmt.Println(l10n.String4Data("_close_shard_succeeded", map[string]interface{}{"sessionName": sessionName}))
 			return nil
 		}
 		time.Sleep(time.Second)
 	}
 
-	return errors.New("世界 " + sessionName + " 关闭失败！")
+	return errors.New(l10n.String4Data("_close_shard_failed", map[string]interface{}{"sessionName": sessionName}))
 }
 
 func StopAllShardsInCluster(clusterName string) {

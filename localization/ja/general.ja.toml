@@ -1,0 +1,7 @@
+_version = "バージョン"
+
+_short_des = "ドンスタLinuxサーバ管理ツール"
+
+_long_des = "ドンスタLinuxサーバ管理ツール\n  Github: github.com/PNCommand/dstm"
+
+_read_config_file_failed = "設定ファイルを読み込めません。デフォルト設定を使います."

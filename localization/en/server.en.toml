@@ -1,0 +1,25 @@
+[_shard_is_running]
+other = "Shard {{.sessionName}} is running!"
+
+[_start_shard]
+other = "Starting shard {{.sessionName}} ..."
+
+_mod_auto_update_off = "Auto update for mods is turned off."
+
+[_start_shard_succeeded]
+other = "Start shard {{.sessionName}} succeeded!"
+
+[_start_shard_failed]
+other = "Start shard {{.sessionName}} failed!"
+
+[_shard_is_closed]
+other = "Shard {{.sessionName}} is closed."
+
+[_close_shard]
+other = "Closing shard {{.sessionName}} ..."
+
+[_close_shard_succeeded]
+other = "Close shard {{.sessionName}} succeeded!"
+
+[_close_shard_failed]
+other = "Close shard {{.sessionName}} failed!"

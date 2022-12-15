@@ -1,0 +1,25 @@
+[_shard_is_running]
+other = "世界 {{.sessionName}} 已经处于运行状态!"
+
+[_start_shard]
+other = "正在启动世界 {{.sessionName}} ..."
+
+_mod_auto_update_off = "Mod自动更新功能已经禁用."
+
+[_start_shard_succeeded]
+other = "成功启动世界 {{.sessionName}} !"
+
+[_start_shard_failed]
+other = "无法启动世界 {{.sessionName}} !"
+
+[_shard_is_closed]
+other = "世界 {{.sessionName}} 已经处于关闭状态."
+
+[_close_shard]
+other = "正在关闭世界 {{.sessionName}} ..."
+
+[_close_shard_succeeded]
+other = "成功关闭世界 {{.sessionName}} !"
+
+[_close_shard_failed]
+other = "无法关闭世界 {{.sessionName}} !"

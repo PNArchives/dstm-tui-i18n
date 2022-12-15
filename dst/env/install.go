@@ -9,6 +9,8 @@ import (
 	"github.com/PNCommand/dstm/utils/interaction"
 	"github.com/PNCommand/dstm/utils/shell"
 	"github.com/spf13/viper"
+
+	l10n "github.com/PNCommand/dstm/localization"
 )
 
 func getPkgManager() string {
@@ -30,14 +32,14 @@ func installDeps() {
 		useSudo = "sudo "
 	}
 
-	fmt.Println("Next commands will be executed:")
+	fmt.Println(l10n.String("_before_install_libs"))
 	fmt.Println("    " + useSudo + pkgManager + " update")
 	fmt.Println("    " + useSudo + pkgManager + " upgrade -y")
 	fmt.Println("    " + useSudo + pkgManager + " install -y " + strings.Join(deps, " "))
 
-	ans := interaction.Confirm("Ready?")
+	ans := interaction.Confirm(l10n.String("_confirm_install_libs"))
 	if !ans {
-		fmt.Println("Canceled")
+		fmt.Println(l10n.String("_cancel_install_libs"))
 		os.Exit(0)
 	}
 	cmd := shell.MakeCmdUseStdIO("bash", "-c", useSudo+pkgManager+" update")
@@ -47,7 +49,7 @@ func installDeps() {
 	cmd = shell.MakeCmdUseStdIO("bash", "-c", useSudo+pkgManager+" install -y "+strings.Join(deps, " "))
 	cmd.Run()
 	if !isAllDepsInstalled() {
-		fmt.Println("Emmmm")
+		fmt.Println(l10n.String("_install_libs_failed"))
 		os.Exit(1)
 	}
 }
@@ -67,7 +69,7 @@ func installSteam() {
 
 	if !utils.DirExists(steamDir) {
 		if err := os.MkdirAll(steamDir, 0755); err != nil {
-			fmt.Println("Can not create directory:", steamDir)
+			fmt.Println(l10n.String("_mkdir_failed"), steamDir)
 			os.Exit(1)
 		}
 	}
@@ -95,11 +97,7 @@ func installSteam() {
 	}
 }
 
-func Tmp() {
-	deleteDST()
-}
-
-func deleteDST() {
+func DeleteDST() {
 	dstRootDir := viper.GetString("dstRootDir")
 	binPath := dstRootDir + "/bin64/dontstarve_dedicated_server_nullrenderer_x64"
 
@@ -107,12 +105,12 @@ func deleteDST() {
 		return
 	}
 
-	fmt.Println("删除旧的DST服务端...")
+	fmt.Println(l10n.String("_delete_dst"))
 	if err := os.RemoveAll(dstRootDir); err != nil {
 		fmt.Println(err)
 		os.Exit(1)
 	}
-	fmt.Println("削除しました...")
+	fmt.Println(l10n.String("_dst_deleted"))
 }
 
 func downloadDST(isUpdate bool) {
@@ -122,25 +120,22 @@ func downloadDST(isUpdate bool) {
 	binPath := dstRootDir + "/bin64/dontstarve_dedicated_server_nullrenderer_x64"
 
 	if isUpdate {
-		fmt.Println("开始升级服务端...")
+		fmt.Println(l10n.String("_update_dst"))
 	} else {
 		if utils.FileExists(binPath) {
-			fmt.Println("饥荒服务端已经下载好啦～")
+			fmt.Println(l10n.String("_dst_ready"))
 			return
 		}
-		fmt.Println("路径 " + dstRootDir + " 未找到饥荒服务端，即将开始下载...")
+		fmt.Println(l10n.String4Data("_download_dst", map[string]interface{}{"path": dstRootDir}))
 	}
 
-	fmt.Println("根据网络状况，可能会很耗时间，更新完成为止请勿息屏")
+	fmt.Println(l10n.String("_download_need_time"))
 	// ~/Steam/steamcmd.sh +force_install_dir $1 +login anonymous +app_update 343050 validate +quit
 	cmd := shell.MakeCmdUseStdIO(scriptPath, "+force_install_dir", dstRootDir, "+login", "anonymous", "+app_update", "343050", "validate", "+quit")
 	if err := cmd.Run(); err != nil {
-		fmt.Println("似乎出现了什么错误(国内主机的话, 一般是网络问题)...")
+		fmt.Println(l10n.String("_download_err"))
 		fmt.Println(err)
 		os.Exit(1)
 	}
-	fmt.Println("饥荒服务端下载更新完成!")
-	fmt.Println("途中可能会出现Failed to init SDL priority manager: SDL not found警告")
-	fmt.Println("不用担心, 这个不影响下载/更新DST")
-	fmt.Println("虽然可以解决, 但这需要下载一堆依赖包, 有可能会对其他运行中的服务造成影响, 所以无视它吧～")
+	fmt.Println(l10n.String("_finish_download"))
 }

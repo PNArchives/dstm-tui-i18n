@@ -1,0 +1,7 @@
+_version = "版本"
+
+_short_des = "饥荒联机版Linux服务器管理工具"
+
+_long_des = "饥荒联机版Linux服务器管理工具\n  Github: github.com/PNCommand/dstm"
+
+_read_config_file_failed = "无法读取配置文件, 将使用默认设置."

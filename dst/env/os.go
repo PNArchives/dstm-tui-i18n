@@ -5,6 +5,8 @@ import (
 	"os"
 	"os/exec"
 	"strings"
+
+	l10n "github.com/PNCommand/dstm/localization"
 )
 
 // ubuntu, debian, rhel(RedHat), centos, ol(Oracle), amzn(Amazon)
@@ -12,18 +14,18 @@ func checkOSInfo() {
 	filePath := "/usr/lib/os-release"
 
 	if _, err := os.Stat(filePath); err != nil {
-		panic(filePath + " not found")
+		panic(l10n.String4Data("_file_not_found", map[string]interface{}{"path": filePath}))
 	}
 
 	f, err := os.Open(filePath)
 	if err != nil {
-		panic("can't open " + filePath)
+		panic(l10n.String4Data("_cannot_open_file", map[string]interface{}{"path": filePath}))
 	}
 	defer f.Close()
 
 	data, err := io.ReadAll(f)
 	if err != nil {
-		panic("can't read data from " + filePath)
+		panic(l10n.String4Data("_cannot_read_file", map[string]interface{}{"path": filePath}))
 	}
 
 	lines := strings.Split(string(data), "\n")
@@ -40,7 +42,7 @@ func checkOSInfo() {
 func checkCpuArch() {
 	bit, err := exec.Command("getconf", "LONG_BIT").Output()
 	if err != nil {
-		panic("can't get system architecture")
+		panic(l10n.String("_get_cpu_bit_failed"))
 	}
 	cpuBit = strings.TrimRight(string(bit), "\n")
 }

@@ -1,0 +1,25 @@
+[_shard_is_running]
+other = "ワールド {{.sessionName}} は起動済みです!"
+
+[_start_shard]
+other = "ワールド {{.sessionName}} を起動しています..."
+
+_mod_auto_update_off = "Modの自動更新はOFFになっています."
+
+[_start_shard_succeeded]
+other = "ワールド {{.sessionName}} を起動しました!"
+
+[_start_shard_failed]
+other = "ワールド {{.sessionName}} の起動に失敗しました!"
+
+[_shard_is_closed]
+other = "ワールド {{.sessionName}} は停止済みです."
+
+[_close_shard]
+other = "ワールド {{.sessionName}} を停止しています..."
+
+[_close_shard_succeeded]
+other = "ワールド {{.sessionName}} を停止しました!"
+
+[_close_shard_failed]
+other = "ワールド {{.sessionName}} の停止に失敗しました!"

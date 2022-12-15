@@ -5,6 +5,8 @@ import (
 	"os"
 	"runtime"
 	"strings"
+
+	l10n "github.com/PNCommand/dstm/localization"
 )
 
 var (
@@ -18,7 +20,7 @@ var (
 
 func CheckSystem() {
 	if runtime.GOOS != "linux" {
-		fmt.Println("Only support linux!!!")
+		fmt.Println(l10n.String("_not_supported_os"))
 		os.Exit(1)
 	}
 
@@ -31,11 +33,11 @@ func CheckSystem() {
 	case "ubuntu", "debian", "centos", "rhel":
 		fmt.Println("OS:", osName, osVer)
 	default:
-		fmt.Println("Unsupported OS:", osName)
+		fmt.Println(l10n.String4Data("_not_supported_distribution", map[string]interface{}{"osName": osName}))
 		os.Exit(1)
 	}
 	if cpuBit != "64" {
-		fmt.Println("Unsupported CPU architecture:", cpuBit, "bit")
+		fmt.Println(cpuBit, l10n.String4Data("_not_supported_bit", map[string]interface{}{"bit": cpuBit}))
 		os.Exit(1)
 	}
 	fmt.Println("CPU:", cpuBit, "bit")
@@ -53,7 +55,7 @@ func CheckSystem() {
 
 	if ok := isAllDepsInstalled(); !ok {
 		if userName != "root" && !(isSudoer && isInstalled("sudo")) {
-			fmt.Println("Permission requires")
+			fmt.Println(l10n.String("_need_permission"))
 			os.Exit(1)
 		}
 		installDeps()

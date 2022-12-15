@@ -7,6 +7,8 @@ import (
 
 	"github.com/PNCommand/dstm/utils/shell"
 	"github.com/spf13/viper"
+
+	l10n "github.com/PNCommand/dstm/localization"
 )
 
 func generateSessionName(clusterName, shardName string) string {
@@ -26,7 +28,7 @@ func isShardRunning(sessionName string) bool {
 func StartShard(clusterName, shardName string) error {
 	sessionName := generateSessionName(clusterName, shardName)
 	if isShardRunning(sessionName) {
-		return errors.New("世界 " + sessionName + " 处于启动状态！")
+		return errors.New(l10n.String4Data("_shard_is_running", map[string]interface{}{"sessionName": sessionName}))
 	}
 
 	dstRootDir := viper.GetString("dstRootDir")
@@ -44,19 +46,17 @@ func StartShard(clusterName, shardName string) error {
 
 	shell.CreateNewTmuxSessionExecCmd(sessionName, cmd)
 
-	fmt.Println("正在启动世界 " + sessionName)
-	fmt.Println("启动需要时间，请等待 90 秒")
-	fmt.Println("本脚本启动世界时禁止自动更新mod, 有需要请在Mod管理面板更新")
-	fmt.Println("如果启动失败，可以再尝试一两次")
+	fmt.Println(l10n.String4Data("_start_shard", map[string]interface{}{"sessionName": sessionName}))
+	fmt.Println(l10n.String("_mod_auto_update_off"))
 
 	for begin := time.Now(); time.Since(begin) < 30*time.Second; {
 		result, err := shell.GrepTmuxSessionOutput(sessionName, "Sim paused")
 		if err == nil && len(result) > 0 {
-			fmt.Println("成功启动世界 " + sessionName)
+			fmt.Println(l10n.String4Data("_start_shard_succeeded", map[string]interface{}{"sessionName": sessionName}))
 			return nil
 		}
 		time.Sleep(time.Second)
 	}
 
-	return errors.New("世界 " + sessionName + " 启动失败！")
+	return errors.New(l10n.String4Data("_start_shard_failed", map[string]interface{}{"sessionName": sessionName}))
 }

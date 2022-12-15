@@ -110,7 +110,7 @@ func initConfig() {
 			}
 		} else {
 			// Config file was found but another error was produced
-			fmt.Println("Config file was found but another error was produced")
+			fmt.Println(l10n.String("_read_config_file_failed"))
 			os.Exit(1)
 		}
 	}
