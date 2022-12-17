@@ -27,6 +27,7 @@ import (
 
 	"github.com/PNCommand/dstm/dst/env"
 	l10n "github.com/PNCommand/dstm/localization"
+	"github.com/PNCommand/dstm/utils"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -62,7 +63,7 @@ func init() {
 	rootCmd.SetVersionTemplate("(*•ᴗ•*) " + rootCmd.Use + " " + rootCmd.Version + "\n")
 
 	rootCmd.PersistentFlags().StringVarP(&cfgFile, "config", "", "", "config file (default is $HOME/.dstm.toml)")
-	rootCmd.Flags().StringP("lang", "l", "en", "specify language")
+	rootCmd.PersistentFlags().StringP("lang", "l", "en", "specify language")
 
 	viper.BindPFlag("lang", rootCmd.Flags().Lookup("lang"))
 }
@@ -86,10 +87,9 @@ func initDefaultConfig() {
 func initConfig() {
 	initDefaultConfig()
 
-	home, err := os.UserHomeDir()
-	cobra.CheckErr(err)
-	viper.AddConfigPath(home)
-	viper.SetConfigName(".dstm")
+	cfgDirPath := os.ExpandEnv("$HOME/.dstm")
+	viper.AddConfigPath(cfgDirPath)
+	viper.SetConfigName("config")
 	viper.SetConfigType("toml")
 
 	if cfgFile != "" {
@@ -99,10 +99,12 @@ func initConfig() {
 	viper.SetEnvPrefix("dstm")
 	viper.BindEnv("lang")
 
-	// If a config file is found, read it in.
 	if err := viper.ReadInConfig(); err != nil {
 		if _, ok := err.(viper.ConfigFileNotFoundError); ok {
 			// Config file not found; ignore error if desired
+			if !utils.DirExists(cfgDirPath) {
+				os.Mkdir(cfgDirPath, 0755)
+			}
 			err := viper.SafeWriteConfig()
 			if err != nil {
 				fmt.Println(err)
