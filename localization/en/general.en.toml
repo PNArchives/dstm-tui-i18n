@@ -5,3 +5,7 @@ _short_des = "Don't Strave Together Dedicated Server Manager For Linux"
 _long_des = "Don't Strave Together Dedicated Server Manager For Linux\n  Github: github.com/PNCommand/dstm"
 
 _read_config_file_failed = "Can not read config file, using default settings."
+
+_yes = "Yes"
+
+_no = "No"
