@@ -113,7 +113,7 @@ func DeleteDST() {
 	fmt.Println(l10n.String("_dst_deleted"))
 }
 
-func downloadDST(isUpdate bool) {
+func DownloadDST(isUpdate bool) {
 	steamDir := os.ExpandEnv("$HOME/Steam")
 	scriptPath := steamDir + "/steamcmd.sh"
 	dstRootDir := viper.GetString("dstRootDir")

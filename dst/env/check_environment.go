@@ -62,5 +62,5 @@ func CheckSystem() {
 	}
 
 	installSteam()
-	downloadDST(false)
+	DownloadDST(false)
 }
