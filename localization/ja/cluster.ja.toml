@@ -2,3 +2,7 @@ _forest_gen = "森 - ワールド生成"
 _forest_set = "森 - ワールド設定"
 _cave_gen = "洞窟 - ワールド生成"
 _cave_set = "洞窟 - ワールド設定"
+
+_invalid_ip = "無効なIPアドレス"
+_invalid_port = "無効なポート(2000~65535にする必要があります)"
+_cannot_be_empty = "このフィールドは必須です"

@@ -2,3 +2,7 @@ _forest_gen = "Forest - World Generation"
 _forest_set = "Forest - World Settings"
 _cave_gen = "Cave - World Generation"
 _cave_set = "Cave - World Settings"
+
+_invalid_ip = "Invalid IP address"
+_invalid_port = "Invalid port (required 2000~65535)"
+_cannot_be_empty = "This field is required and cannot be empty"

@@ -2,3 +2,7 @@ _forest_gen = "森林 - 世界生成"
 _forest_set = "森林 - 世界选项"
 _cave_gen = "洞穴 - 世界生成"
 _cave_set = "洞穴 - 世界设置"
+
+_invalid_ip = "无效的IP地址"
+_invalid_port = "无效的端口(应为2000~65535)"
+_cannot_be_empty = "输入不能为空"
