@@ -1,0 +1,57 @@
+[
+  {
+    "name": "NETWORK",
+    "items": [
+      {
+        "key": "server_port",
+        "value": "11000",
+        "input-type": "textfield",
+        "validation": "port"
+      }
+    ]
+  },
+  {
+    "name": "NETWORK",
+    "items": [
+      {
+        "key": "is_master",
+        "value": "false",
+        "input-type": "selector",
+        "options": ["false", "true"]
+      },
+      {
+        "key": "name",
+        "value": "",
+        "input-type": "textfield"
+      }
+    ]
+  },
+  {
+    "name": "ACCOUNT",
+    "items": [
+      {
+        "key": "encode_user_path",
+        "value": "true",
+        "input-type": "selector",
+        "options": ["false", "true"]
+      }
+    ]
+  },
+  {
+    "name": "STEAM",
+    "items": [
+      {
+        "key": "master_server_port",
+        "value": "27018",
+        "input-type": "textfield",
+        "validation": "port"
+      },
+      {
+        "key": "authentication_port",
+        "value": "8768",
+        "input-type": "textfield",
+        "validation": "port"
+      }
+    ]
+  }
+]

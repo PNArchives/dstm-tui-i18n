@@ -1,0 +1,140 @@
+[
+  {
+    "name": "NETWORK",
+    "items": [
+      {
+        "key": "cluster_name",
+        "value": "鸽子们的摸鱼日常",
+        "input-type": "textfield"
+      },
+      {
+        "key": "cluster_description",
+        "value": "咕咕咕!",
+        "input-type": "textfield",
+        "validation": "allow-empty"
+      },
+      {
+        "key": "cluster_password",
+        "value": "",
+        "input-type": "textfield",
+        "validation": "allow-empty"
+      },
+      {
+        "key": "cluster_language",
+        "value": "en",
+        "input-type": "selector",
+        "options": ["en", "zh", "ja"]
+      },
+      {
+        "key": "lan_only_cluster",
+        "value": "false",
+        "input-type": "selector",
+        "options": ["false", "true"]
+      },
+      {
+        "key": "offline_cluster",
+        "value": "fasle",
+        "input-type": "selector",
+        "options": ["false", "true"]
+      },
+      {
+        "key": "tick_rate",
+        "value": "15",
+        "input-type": "selector",
+        "options": ["15", "20", "30", "60"]
+      },
+      {
+        "key": "whitelist_slots",
+        "value": "0",
+        "input-type": "selector",
+        "options": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+      }
+    ]
+  },
+  {
+    "name": "GAMEPLAY",
+    "items": [
+      {
+        "key": "game_mode",
+        "value": "survival",
+        "input-type": "selector",
+        "options": ["survival"]
+      },
+      {
+        "key": "max_players",
+        "value": "6",
+        "input-type": "selector",
+        "options": ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"]
+      },
+      {
+        "key": "pvp",
+        "value": "false",
+        "input-type": "selector",
+        "options": ["false", "true"]
+      },
+      {
+        "key": "pause_when_empty",
+        "value": "true",
+        "input-type": "selector",
+        "options": ["false", "true"]
+      },
+      {
+        "key": "vote_enabled",
+        "value": "true",
+        "input-type": "selector",
+        "options": ["false", "true"]
+      }
+    ]
+  },
+  {
+    "name": "MISC",
+    "items": [
+      {
+        "key": "console_enabled",
+        "value": "true",
+        "input-type": "selector",
+        "options": ["false", "true"]
+      },
+      {
+        "key": "max_snapshots",
+        "value": "6",
+        "input-type": "selector",
+        "options": ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+      }
+    ]
+  },
+  {
+    "name": "SHARD",
+    "items": [
+      {
+        "key": "shard_enabled",
+        "value": "true",
+        "input-type": "selector",
+        "options": ["false", "true"]
+      },
+      {
+        "key": "bind_ip",
+        "value": "127.0.0.1",
+        "input-type": "textfield",
+        "validation": "ip"
+      },
+      {
+        "key": "master_ip",
+        "value": "127.0.0.1",
+        "input-type": "textfield",
+        "validation": "ip"
+      },
+      {
+        "key": "master_port",
+        "value": "10888",
+        "input-type": "textfield",
+        "validation": "port"
+      },
+      {
+        "key": "cluster_key",
+        "value": "supersecretkey",
+        "input-type": "textfield"
+      }
+    ]
+  }
+]

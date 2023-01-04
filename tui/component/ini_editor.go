@@ -1,11 +1,11 @@
 package component
 
 import (
+	_ "embed"
 	"encoding/json"
 	"errors"
 	"fmt"
 	"net"
-	"os"
 	"strconv"
 	"strings"
 
@@ -15,6 +15,13 @@ import (
 	"github.com/charmbracelet/bubbles/textinput"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
+)
+
+var (
+	//go:embed json/cluster-ini.json
+	clusterIniJson []byte
+	//go:embed json/shard-ini.json
+	shardIniJson []byte
 )
 
 type IniItem struct {
@@ -81,15 +88,13 @@ type IniEditor struct {
 	err       error
 }
 
-func NewIniEditor(filePath, title string) (*IniEditor, error) {
-	file, err := os.Open(filePath)
-	if err != nil {
-		return nil, err
-	}
-	defer file.Close()
-
+func NewIniEditor(isCluster bool, title string) (*IniEditor, error) {
 	var editor IniEditor
-	json.NewDecoder(file).Decode(&editor.IniGroups)
+	if isCluster {
+		json.Unmarshal(clusterIniJson, &editor.IniGroups)
+	} else {
+		json.Unmarshal(shardIniJson, &editor.IniGroups)
+	}
 
 	p := paginator.New()
 	p.Type = paginator.Dots

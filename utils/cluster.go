@@ -29,6 +29,15 @@ func IsCluster(dirPath string) bool {
 	return true
 }
 
+func IsClusterExists(clusterName string) bool {
+	for _, cluster := range GetAllClusters() {
+		if cluster == clusterName {
+			return true
+		}
+	}
+	return false
+}
+
 func GetAllClusters() []string {
 	worldsDirPath := viper.GetString("kleiRootDir") + "/" + viper.GetString("worldsDirName")
 	files, err := os.ReadDir(worldsDirPath)
